@@ -152,11 +152,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            margin: 0 4rem;
         }
 
         .galery,.favorite-imgs{
             display: grid;
-            grid-template-columns: repeat(auto-fill,minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fill,minmax(250px, 1fr));
         }
         .galery__img{
             width: 100%;
@@ -188,8 +189,14 @@
         }
 
         .modal .galery__img__container{
-            max-width: 800px;
-            max-height: 90vh;
+            width: 600px;
+            height: 600px;
+        }
+        .modal .galery__img__container .galery__img {
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
         }
         .modal .galery__img__container i {
             cursor: pointer;
@@ -247,7 +254,7 @@
 
         .closeIcon {
             position: absolute;
-            bottom: 90%;
+            bottom: 85%;
             left: 90%;
             transition: ease .3s transform;
         }
@@ -334,8 +341,8 @@
         const galeryContainer = document.getElementById('galery');
         const favoriteContainer = document.getElementById('favorite-imgs')
         const imgs = []
-        const favImgs = []
-        const containers = []
+        const favImgs = localStorage.getItem('favImgs') ? JSON.parse(localStorage.getItem('favImgs')) :[]
+        
 
         for(let i = 1; i < 16; i++) {
             imgs.push({
@@ -347,6 +354,7 @@
         const deletePicture = id => {
             const index = favImgs.findIndex(img => img.id == id)
             favImgs.splice(index,1)
+            localStorage.setItem('favImgs',JSON.stringify(favImgs))
             document.getElementById(id).nextElementSibling.classList.remove('liked')
         }
 
@@ -392,8 +400,6 @@
 
             renderModal([modalState.actual],e.target.nextElementSibling.classList.contains('liked'))   
 
-            console.log(modalState, e.target.nextElementSibling.classList.contains('liked'))
-
         }
 
         const renderModal = (img, isLiked) => {
@@ -423,7 +429,8 @@
             
             
             if(modalState.next) {
-               renderModal([modalState.next])
+               const isLiked = document.getElementById(modalState.next.id).nextElementSibling.classList.contains('liked')
+               renderModal([modalState.next], isLiked)
                modalState.previous = modalState.actual
                modalState.actual = modalState.next
                modalState.next = imgs[modalState.next.id + 1]
@@ -433,7 +440,8 @@
 
         const renderPrevious = () => {
             if(modalState.previous) {
-                renderModal([modalState.previous])
+                const isLiked = document.getElementById(modalState.next.id).nextElementSibling.classList.contains('liked')
+                renderModal([modalState.previous], isLiked)
                 modalState.next = modalState.actual
                 modalState.actual = modalState.previous
                 modalState.previous = imgs[modalState.actual.id - 1]
@@ -453,6 +461,7 @@
 
             if(isLiked) {
                 favImgs.push({src: img.src, id: img.id})
+                localStorage.setItem('favImgs',JSON.stringify(favImgs))
                 addLike(img.id)
                 renderPictures(favImgs, favoriteContainer, true)
             }else{
@@ -460,11 +469,15 @@
                 deletePicture(id)
                 renderPictures(favImgs,favoriteContainer,true)
             }
-            console.log(favImgs)
+            
         }
 
         renderPictures(imgs,galeryContainer, false)
-
+        favImgs.forEach(img => {
+            const icon = document.getElementById(img.id).nextElementSibling
+            icon.classList.add('liked')
+        })
+        renderPictures(favImgs,favoriteContainer,true)
     </script>
 
     <!-- Programado por Edgar Aaron -->
