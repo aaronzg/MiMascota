@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi mascota</title>
+    <script src="https://kit.fontawesome.com/c1337c2476.js" crossorigin="anonymous" defer></script>
+    <link rel="shortcut icon" href="./assets/logo.jpg" type="image/x-icon">
+
+    <style>
+        *{
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .line{
+            border-top: 1px solid var(--text);
+        }
+
+        :root{
+            --text: #f2f2f2;
+            --hover: #d2d2d2;
+            --titles: #fff;
+        }
+
+        body{
+            font-family: 'Montserrat', sans-serif;
+            background-color: #2f2f2f;
+            color: var(--titles);
+            position: relative;
+            
+            margin: 0 auto;
+        }
+
+        header{
+            display: flex;
+            justify-content: space-between;
+            padding: .6rem 2rem;
+            background-color: #0467d8;
+        }
+        .header__nav{
+            display: flex;
+            align-items: center;
+        }
+
+        .header__nav__ul{
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        .header__logo{
+            font-size: 2.6rem;
+        }
+        .ul__item__link{
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: var(--text);
+            transition: ease .2s color;
+        }
+        .ul__item__link:hover{
+            color: var(--hover);
+        }
+        .img-background{
+            background-image:
+            linear-gradient(90deg, black, transparent),
+             url(./assets/img11.jpg);
+            width: 100%;
+            height: 420px;
+            background-size: cover;
+            background-position-y: 40%;
+            display: flex;
+            align-items: center;
+        }
+        .img-background span {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-left: 3rem;
+        }
+
+        img{
+            width: 320px;
+        }
+        .section__title{
+            font-size: 3rem;
+            color: var(--titles)
+        }
+
+        .section__subtitle{
+            font-size: 1.6rem;
+            padding: 1rem 0;
+        }
+        
+        section{
+            margin-top: 5rem;
+            gap: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        #about{
+            margin: 5rem 2rem;
+        }
+
+        .section__img{
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+        .img-link{
+            grid-column: 2/3;
+            grid-row: 1/2;
+            color: white;
+            text-decoration: none;
+        }
+        .section__img:hover + .hover-img,
+        .hover-img:hover{
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .hover-img {
+           background-color:#0000008c;
+           border-radius: 2rem;
+           display: grid;
+           place-content: center;
+           font-size: 1.2rem;
+           height: 100%;
+           grid-column: 2/3;
+           grid-row: 1/2;
+            transition: ease .4s all;
+           transform: translateY(4%);
+           opacity: 0;
+        }
+
+        .galery__img__container{
+            position: relative;
+            transition: ease .2s transform;
+        }
+        
+        .galery__img__container:hover{
+            transform: scale(.95);
+        }
+        
+        .galeria, .favorite{
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .galery,.favorite-imgs{
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(450px, 1fr));
+        }
+        .galery__img{
+            width: 100%;
+            height: 100%;
+           
+        }
+        .galery__img__container i {
+            cursor: pointer;
+            position: absolute;
+            top: 90%;
+            left: 80%;
+            font-size: 2rem;
+            z-index: 3;
+
+            transition: ease .3s all;
+        }
+        .galery__img__container i:hover {
+            transform: scale(1.5);
+            color: #e99595;
+        }
+
+        .galery__img__container i:active {
+            transform: scale(1.1);
+            color: #ff0000;
+        }
+
+        .liked {
+            color: #ff0000;
+        }
+
+        .modal .galery__img__container{
+            max-width: 800px;
+            max-height: 90vh;
+        }
+        .modal .galery__img__container i {
+            cursor: pointer;
+            position: absolute;
+            top: 90%;
+            left: 80%;
+            font-size: 2rem;
+            z-index: 3;
+
+            transition: ease .3s all;
+        }
+        .modal .galery__img__container i:hover {
+            transform: scale(1.5);
+            color: #e99595;
+        }
+
+        .modal .galery__img__container i:active {
+            transform: scale(1.1);
+            color: #ff0000;
+        }
+        .modal .galery__img__container:hover {
+            transform: scale(1);
+        }
+        .modal i {
+            font-size: 4rem;
+            transition: ease .3s color;
+        }
+
+        .modal i:hover {
+            color: #8b8b8b;
+        }
+        
+        .modal{
+            position: fixed;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            pointer-events: none;
+            z-index: 4;
+            opacity: 0;
+
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 2rem;
+        }
+        .modal.active{
+            opacity: 1;
+            pointer-events: all;
+            background-color: #00000094;
+            backdrop-filter: blur(10px);
+        }
+
+        .closeIcon {
+            position: absolute;
+            bottom: 90%;
+            left: 90%;
+            transition: ease .3s transform;
+        }
+        .closeIcon:active{
+            transform: scale(.85);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="header__logo">
+            Mi mascota
+        </h1>
+
+        <nav class="header__nav">
+            <ul class="header__nav__ul">
+                <li class="nav__ul__item"><a href="#about" class="ul__item__link">Sobre mi mascota</a></li>
+                <li class="nav__ul__item"><a href="#galery" class="ul__item__link">Galeria</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="img-background">
+        <span>Me llamo <br> Sebas</span>
+    </div>
+
+    <section id="about">
+        <div class="content">
+            <h2 class="section__title">
+                Sobre mi mascota
+            </h2>
+
+            <h3 class="section__subtitle">
+                Cosas que le gustan a mi mascota
+            </h3>
+            <ul>
+                <li>Dormir</li>
+                <li>Comer Carne</li>
+                <li>Que lo abrazen</li>
+                <li>Que lo rasquen</li>
+                <li>Subirse a la cama</li>
+            </ul>
+
+            <h3 class="section__subtitle">
+                Cosas que no le gustan a mi mascota
+            </h3>
+
+            <ul>
+                <li>Jugar con otros perros</li>
+                <li>Que lo acaricien con el pie</li>
+                <li>Que le soplen en la oreja</li>
+                <li>Que lo mojen</li>
+                <li>Comer verduras</li>
+            </ul>
+        </div>
+        <a href="#12" class="img-link">
+            <div class="hover-img">
+                Ver en galeria
+            </div>
+        </a>
+        <img src="./assets/img12.jpg" alt="" class="section__img">
+    </section>
+
+    <div class="line"></div>
+
+    <section class="galeria">
+        <h2 class="section__title">Galeria</h2>
+        <div id="galery" class="galery"></div>
+    </section>
+
+    <div class="line"></div>
+
+    <section class="galeria">
+        <h2 class="section__title">Imagenes favoritas</h2>
+        <div id="favorite-imgs" class="galery"></div>
+    </section>
+
+    <div class="modal">
+        
+    </div>
+
+    <script>
+        const modal = document.querySelector('.modal')
+        const galeryContainer = document.getElementById('galery');
+        const favoriteContainer = document.getElementById('favorite-imgs')
+        const imgs = []
+        const favImgs = []
+        const containers = []
+
+        for(let i = 1; i < 16; i++) {
+            imgs.push({
+               src: `./assets/img${i}.jpg`,
+               id: i - 1 
+            })
+        }
+
+        const deletePicture = id => {
+            const index = favImgs.findIndex(img => img.id == id)
+            favImgs.splice(index,1)
+            document.getElementById(id).nextElementSibling.classList.remove('liked')
+        }
+
+        const renderPictures = (arr = [], containerEl, liked) => {
+            containerEl.innerHTML = ''
+
+            arr.forEach(img => {
+                const imgEl = document.createElement('img')
+                imgEl.src = img.src
+                imgEl.classList.add('galery__img')
+                imgEl.id = img.id
+                imgEl.addEventListener('click', showModal)
+
+                const container = document.createElement('div')
+                container.classList.add('galery__img__container')
+                
+                const icon = document.createElement('i')
+                icon.classList.add('fa-solid','fa-heart')
+                liked ? icon.classList.add('liked') : ''
+                icon.addEventListener('click', like)
+                
+                container.appendChild(imgEl)
+                container.appendChild(icon)
+                containerEl.appendChild(container)
+            })
+        }
+
+        const modalState = {
+            previous: undefined,
+            actual: undefined,
+            next: undefined
+        }
+
+        const showModal = (e) => {
+            modal.innerHTML = '';
+            const id = Number(e.target.id)
+
+            const img = imgs[id]
+            
+            modalState.actual = img 
+            modalState.previous = imgs[id - 1]
+            modalState.next = imgs[id + 1]
+
+            renderModal([modalState.actual],e.target.nextElementSibling.classList.contains('liked'))   
+
+            console.log(modalState, e.target.nextElementSibling.classList.contains('liked'))
+
+        }
+
+        const renderModal = (img, isLiked) => {
+          
+
+            renderPictures(img,modal,isLiked)
+            const close = document.createElement('i')
+            close.classList.add('fa-solid','fa-xmark','closeIcon')
+            close.addEventListener('click',() => {
+                modal.classList.remove('active')
+            })
+            const iRight = document.createElement('i')
+            iRight.classList.add('fa-solid','fa-chevron-right')
+            iRight.addEventListener('click', renderNext)
+
+            const iLeft = document.createElement('i')
+            iLeft.classList.add('fa-solid','fa-chevron-left')
+            iLeft.addEventListener('click', renderPrevious)
+
+            modal.prepend(iLeft)
+            modal.appendChild(iRight)
+            modal.appendChild(close)
+            modal.classList.add('active')
+        }
+
+        const renderNext = () => {
+            
+            
+            if(modalState.next) {
+               renderModal([modalState.next])
+               modalState.previous = modalState.actual
+               modalState.actual = modalState.next
+               modalState.next = imgs[modalState.next.id + 1]
+           }
+
+        }
+
+        const renderPrevious = () => {
+            if(modalState.previous) {
+                renderModal([modalState.previous])
+                modalState.next = modalState.actual
+                modalState.actual = modalState.previous
+                modalState.previous = imgs[modalState.actual.id - 1]
+            }
+        }
+
+        const addLike = (id) => {
+            document.getElementById(id).nextElementSibling.classList.add('liked')
+        }
+
+        const like = (e) => {
+            const i = e.target;
+            i.classList.toggle('liked')
+            const isLiked = i.classList.contains('liked')
+            
+            const img = i.previousElementSibling
+
+            if(isLiked) {
+                favImgs.push({src: img.src, id: img.id})
+                addLike(img.id)
+                renderPictures(favImgs, favoriteContainer, true)
+            }else{
+                const id = img.id
+                deletePicture(id)
+                renderPictures(favImgs,favoriteContainer,true)
+            }
+            console.log(favImgs)
+        }
+
+        renderPictures(imgs,galeryContainer, false)
+
+    </script>
+
+    <!-- Programado por Edgar Aaron -->
+</body>
+</html>
